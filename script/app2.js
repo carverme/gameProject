@@ -13,31 +13,16 @@ var ballVel = {
 var ball = null;
 var bounceBarrierTop = 7;
 var bounceBarrierBottom = 592;
-var scoreLeft = 0;
-var scoreRight = 1100;
-var player1Score = 0;
-var player2Score = 0;
-var canScore = true;
-
+var scoreBarrierLeft = 0;
+var scoreBarrierRight = 1100;
 
 //this function draws the initial loaded items.
 function draw() {
   ctx.fillStyle = 'limegreen';
   ctx.fillRect(547.5, 10, 5, 580);
-//this controls the font for the scores
-  ctx.font = "40px sans-serif";
-//this is the p1 scorebox
-  ctx.fillStyle = 'limegreen';
-  ctx.fillRect(487.5, 20, 50, 50);
-//this writes the scores into the p1 box in black
-  ctx.fillStyle = 'black'
-  ctx.fillText(player1Score, 487.5, 50)
-//this is the p2 scorebox
-  ctx.fillStyle = 'limegreen';
-  ctx.fillRect(562.5, 20, 50, 50);
-//this writes the scores into the p2 box in black
-  ctx.fillStyle = 'black'
-  ctx.fillText(player2Score, 562.5, 50)
+  // collisionDetection();
+  //to add the score boxes here?
+  console.log("working!!!");
 };
 
 //this function manages player char, and movement.
@@ -56,24 +41,24 @@ function playerPaddle(option) {
   return paddleChar;
 };
 
-
 function gameLoop() {
+  //define this more...
   collisionDetection(player1);
   collisionDetection(player2);
   ctx.clearRect(0, 0, mainGame.width, mainGame.height);
-  draw();
+  draw()
   player1.render();
   console.log("gamelooping!");
+  //Determine how to accept p2, then set to render if that truth is met.
   if(player2.alive) {
-    player2.render();
+  player2.render();
   }
-  console.log("this is the y position: ", ballPos.y);
-  console.log("this is the y velocity: ", ballVel.y);
+  console.log
   ctx.fillRect(ballPos.x, ballPos.y, 6, 6);
-  //how to call player1Score and player2Score.
+//In this block, maybe? Determine how to accept AI, then set to render that if truth is met.
 }
 
-//This defines player location, size, and color.
+//Below define player location, size, and color.
 $(document).ready(function(){
   draw()
   player1 = playerPaddle({
@@ -92,8 +77,8 @@ $(document).ready(function(){
     color: 'limegreen',
     alive: true,
   })
-setInterval(gameLoop, 10);
 
+setInterval(gameLoop, 10);
 $(document).keydown(function(e) {
   switch(true){
     case (e.keyCode === 81):
@@ -119,8 +104,12 @@ $(document).keydown(function(e) {
 });
 
 function gameTick(option) {
+  // ctx.clearRect(0, 0, mainGame.width, mainGame.height);
   ballPos.x = ballPos.x + ballVel.x;
   ballPos.y = ballPos.y + ballVel.y;
+  // ball.style.left = (ballPos.x) + "px";
+  // ball.style.top = (-ballPos.y) + "px";
+  // ctx.fillRect(ballPos.x, ballPos.y, 6, 6);
   };
 
 $(document).ready(function(e) {
@@ -131,89 +120,40 @@ $(document).ready(function(e) {
   setInterval(gameTick, 10);
 });
 
-
 function collisionDetection(paddleChar) {
 //left
-    if(ballPos.x <= paddleChar.x && ballPos.x > paddleChar.x + paddleChar.width
-      && ballPos.y <= paddleChar.y && ballPos.y > paddleChar.y + paddleChar.height)
+    if(ballPos.x > paddleChar.x && ballPos.x < paddleChar.x + paddleChar.width
+      && ballPos.y < paddleChar.y && ballPos.y < paddleChar.y + paddleChar.height)
       {
-        ballVel.x = ballVel.x * -1;
-      }
-//leftscoreboard
-    if(ballPos.x >= scoreRight && canScore) {
-        player1Score++;
-        canScore = false;
-        setTimeout(function(){
-          canScore = true;
-          ballPos.x = 50;
-          ballVel.x = 1;
-        }, 1000)
-    }
+        //ballPos.x++;
+        //ballPos.y++;
+        ballVel.x += 1;
+        ballVel.y += 1;
+   }
 //right
-    if(ballPos.x >= paddleChar.x && ballPos.x < paddleChar.x + paddleChar.width
-      && ballPos.y >= paddleChar.y && ballPos.y < paddleChar.y + paddleChar.height)
+    if(ballPos.x < paddleChar.x && ballPos.x < paddleChar.x + paddleChar.width
+      && ballPos.y < paddleChar.y && ballPos.y < paddleChar.y + paddleChar.height)
       {
-        ballVel.x = ballVel.x * -1;
-      }
-//rightscoreboard
-    if(ballPos.x <= scoreLeft && canScore) {
-        player2Score++;
-        canScore = false;
-        setTimeout(function(){
-          canScore = true;
-          ballPos.x = 50;
-          ballVel.x = 1;
-        }, 1000)
+       ballPos.x++;
+       ballPos.y++;
+        ballVel.x += -1;
+        ballVel.y += 1;
     }
-//this makes the ball bounce off the top barrier.
+
     if(ballPos.y <= bounceBarrierTop) {
-      ballPos.y = 10;
-      // ballVel.x = 1;
-      ballVel.y = ballVel.y * -1;
-      }
-//this makes the ball bounce off the bottom barrier.
+      // ballPos.x++;
+      // ballPos.y++;
+      ballVel.x += 1;
+      ballVel.y += 1;
+    }
+
     if(ballPos.y >= bounceBarrierBottom) {
-      ballPos.y = 590;
-      // ballVel.x = 1;
-      ballVel.y = ballVel.y * -1;
-      }
-    };
-
-
-function randomPosX(50, 1051) {
-  return Math.random() * (1051 - 50) + 50;
-}
-
-function randomPosY(30, 570) {
-  return Math.random() * (570 - 30) + 30;
-}
-
-function randomintVel(-1, 2) {
-  return Math.floor(Math.random() * 2) + (-1);
-}
-
-// //use this function to get an x, and then again for a y, to have random placement of ball when reset.
-// function getRandomArbitrary(min, max) {
-//   return Math.random() * (max - min) + min;
-// }
-//
-// //use this function to get a random integer, for x and y, to have random direction of the ball.
-// function getRandomInt(min, max) {
-//   return Math.floor(Math.random() * max) + min; //The maximum is exclusive and the minimum is inclusive
-// }
-
-// subtract a .5 from the math.random...
-
-//scoreboard
-
-
-
-
-
-
-
-
-
+      // ballPos.x++;
+      // ballPos.y++;
+      ballVel.x += 1;
+      ballVel.y += -1 * 1.5;
+    }
+};
 // function collisionDetection() {
 //     for(var c=0; c<brickColumnCount; c++) {
 //         for(var r=0; r<brickRowCount; r++) {
