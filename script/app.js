@@ -18,6 +18,8 @@ var scoreRight = 1100;
 var player1Score = 0;
 var player2Score = 0;
 var canScore = true;
+var winToast = true;
+var canMove = true;
 
 
 //this function draws the initial loaded items.
@@ -63,12 +65,11 @@ function gameLoop() {
   ctx.clearRect(0, 0, mainGame.width, mainGame.height);
   draw();
   player1.render();
-  console.log("gamelooping!");
   if(player2.alive) {
     player2.render();
   }
-  console.log("this is the y position: ", ballPos.y);
-  console.log("this is the y velocity: ", ballVel.y);
+  // console.log("this is the y position: ", ballPos.y);
+  // console.log("this is the y velocity: ", ballVel.y);
   ctx.fillRect(ballPos.x, ballPos.y, 6, 6);
   //how to call player1Score and player2Score.
 }
@@ -96,11 +97,11 @@ setInterval(gameLoop, 10);
 
 $(document).keydown(function(e) {
   switch(true){
-    case (e.keyCode === 81):
+    case (e.keyCode === 81 && canMove):
     player1.y-=20;
     //How to do sub steps to make it more smooth?
     break;
-    case (e.keyCode === 65):
+    case (e.keyCode === 65 && canMove):
     player1.y+=20;
     break;
     }
@@ -108,10 +109,10 @@ $(document).keydown(function(e) {
 
 $(document).keydown(function(e) {
   switch(true){
-    case (e.keyCode === 80):
+    case (e.keyCode === 80 && canMove):
     player2.y-=20;
     break;
-    case (e.keyCode === 76):
+    case (e.keyCode === 76 && canMove):
     player2.y+=20;
     break;
     }
@@ -145,7 +146,8 @@ function collisionDetection(paddleChar) {
         canScore = false;
         setTimeout(function(){
           canScore = true;
-          ballPos.x = 50;
+          ballPos.x = 600;
+          ballPos.y = 300;
           ballVel.x = 1;
         }, 1000)
     }
@@ -161,7 +163,8 @@ function collisionDetection(paddleChar) {
         canScore = false;
         setTimeout(function(){
           canScore = true;
-          ballPos.x = 50;
+          ballPos.x = 600;
+          ballPos.y = 300;
           ballVel.x = 1;
         }, 1000)
     }
@@ -177,20 +180,38 @@ function collisionDetection(paddleChar) {
       // ballVel.x = 1;
       ballVel.y = ballVel.y * -1;
       }
-    if(player1Score === 5) {
-      alert("Player 1 Wins!");
-    } else if(player2Score === 5) {
-      alert("Player 2 Wins!");
-    }
-    };
+
+    if(player1Score === 1 && winToast) {
+      canMove = false;
+      winToast = false;
+      ballVel.x = null;
+      ballVel.y = null;
+      setTimeout(function(){
+        M.toast({html: 'Player 1 wins!'});
+        canMove = true;
+        ballVel.x = 1;
+        ballVel.y = 1;
+      }, 1500);
+    } else if(player2Score === 1 && winToast) {
+      canMove = false;
+      winToast = false;
+      ballVel.x = null;
+      ballVel.y = null;
+      setTimeout(function(){
+        M.toast({html: 'Player 2 wins!'});
+        canMove = true;
+        ballVel.x = 1;
+        ballVel.y = 1;
+    }, 1500);
+  }
+};
 
 
-//write win condition here!.. first to five!
-    // if(player1Score >= 5) {
-    //   //
-    // } else if (player2Score >=5) {
-    //   //
-    // }
+
+
+
+
+
 
 
 
