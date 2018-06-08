@@ -31,13 +31,13 @@ function draw() {
   ctx.fillRect(487.5, 20, 50, 50);
 //this writes the scores into the p1 box in black
   ctx.fillStyle = 'black'
-  ctx.fillText(player1Score, 487.5, 50)
+  ctx.fillText(player1Score, 502, 57.5)
 //this is the p2 scorebox
   ctx.fillStyle = 'limegreen';
   ctx.fillRect(562.5, 20, 50, 50);
 //this writes the scores into the p2 box in black
   ctx.fillStyle = 'black'
-  ctx.fillText(player2Score, 562.5, 50)
+  ctx.fillText(player2Score, 577, 57.5)
 };
 
 //this function manages player char, and movement.
@@ -177,20 +177,35 @@ function collisionDetection(paddleChar) {
       // ballVel.x = 1;
       ballVel.y = ballVel.y * -1;
       }
+    if(player1Score === 5) {
+      alert("Player 1 Wins!");
+    } else if(player2Score === 5) {
+      alert("Player 2 Wins!");
+    }
     };
 
 
-function randomPosX(50, 1051) {
-  return Math.random() * (1051 - 50) + 50;
-}
+//write win condition here!.. first to five!
+    // if(player1Score >= 5) {
+    //   //
+    // } else if (player2Score >=5) {
+    //   //
+    // }
 
-function randomPosY(30, 570) {
-  return Math.random() * (570 - 30) + 30;
-}
 
-function randomintVel(-1, 2) {
-  return Math.floor(Math.random() * 2) + (-1);
-}
+
+
+// function randomPosX(50, 1051) {
+//   return Math.random() * (1051 - 50) + 50;
+// }
+//
+// function randomPosY(30, 570) {
+//   return Math.random() * (570 - 30) + 30;
+// }
+//
+// function randomintVel(-1, 2) {
+//   return Math.floor(Math.random() * 2) + (-1);
+// }
 
 // //use this function to get an x, and then again for a y, to have random placement of ball when reset.
 // function getRandomArbitrary(min, max) {

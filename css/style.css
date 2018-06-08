@@ -5,16 +5,20 @@ body {
 }
 
 .header {
-  margin-bottom: 70px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-family: 'Jura', sans-serif;
+  font-size: 120px;
+  font-weight: bold;
 
 }
 
-#ball {
+/* #ball {
   width: 4px;
   height: 4px;
   background-color: white;
   position: absolute;
-}
+} */
 
 canvas {
   background: black;
@@ -24,5 +28,9 @@ canvas {
 }
 
 .footer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-family: 'Michroma', sans-serif;
+  font-size: 30px;
 
 }
