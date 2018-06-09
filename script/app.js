@@ -60,6 +60,8 @@ function playerPaddle(option) {
 
 
 function gameLoop() {
+  ballPos.x = ballPos.x + ballVel.x;
+  ballPos.y = ballPos.y + ballVel.y;
   collisionDetection(player1);
   collisionDetection(player2);
   ctx.clearRect(0, 0, mainGame.width, mainGame.height);
@@ -75,7 +77,8 @@ function gameLoop() {
 }
 
 //This defines player location, size, and color.
-$(document).ready(function(){
+$(document).ready(function() {
+   // $('.modal').modal();
   draw()
   player1 = playerPaddle({
     x: 20,
@@ -93,45 +96,30 @@ $(document).ready(function(){
     color: 'limegreen',
     alive: true,
   })
-setInterval(gameLoop, 10);
-
-$(document).keydown(function(e) {
-  switch(true){
-    case (e.keyCode === 81 && canMove):
-    player1.y-=20;
-    //How to do sub steps to make it more smooth?
-    break;
-    case (e.keyCode === 65 && canMove):
-    player1.y+=20;
-    break;
-    }
-  })
-
-$(document).keydown(function(e) {
-  switch(true){
-    case (e.keyCode === 80 && canMove):
-    player2.y-=20;
-    break;
-    case (e.keyCode === 76 && canMove):
-    player2.y+=20;
-    break;
-    }
-  })
-});
-
-function gameTick(option) {
-  ballPos.x = ballPos.x + ballVel.x;
-  ballPos.y = ballPos.y + ballVel.y;
-  };
-
-$(document).ready(function(e) {
   ballPos.x = 200;
   ballPos.y = 200;
   ballVel.x = 1;
   ballVel.y = 1;
-  setInterval(gameTick, 10);
-});
+  setInterval(gameLoop, 10);
 
+$(document).keydown(function(e) {
+  switch(true){
+    case (e.keyCode === 81 && canMove):
+      player1.y-=20;
+      //How to do sub steps to make it more smooth?
+      break;
+    case (e.keyCode === 65 && canMove):
+      player1.y+=20;
+      break;
+    case (e.keyCode === 80 && canMove):
+      player2.y-=20;
+      break;
+    case (e.keyCode === 76 && canMove):
+      player2.y+=20;
+      break;
+    }
+  })
+});
 
 function collisionDetection(paddleChar) {
 //left
@@ -148,7 +136,6 @@ function collisionDetection(paddleChar) {
           canScore = true;
           ballPos.x = 600;
           ballPos.y = 300;
-          ballVel.x = 1;
         }, 1000)
     }
 //right
@@ -165,7 +152,6 @@ function collisionDetection(paddleChar) {
           canScore = true;
           ballPos.x = 600;
           ballPos.y = 300;
-          ballVel.x = 1;
         }, 1000)
     }
 //this makes the ball bounce off the top barrier.
@@ -180,40 +166,54 @@ function collisionDetection(paddleChar) {
       // ballVel.x = 1;
       ballVel.y = ballVel.y * -1;
       }
+      checkForWin();
+};
 
-    if(player1Score === 1 && winToast) {
-      canMove = false;
-      winToast = false;
-      ballVel.x = null;
-      ballVel.y = null;
-      setTimeout(function(){
-        M.toast({html: 'Player 1 wins!'});
-        canMove = true;
-        ballVel.x = 1;
-        ballVel.y = 1;
-      }, 1500);
-    } else if(player2Score === 1 && winToast) {
-      canMove = false;
-      winToast = false;
-      ballVel.x = null;
-      ballVel.y = null;
-      setTimeout(function(){
-        M.toast({html: 'Player 2 wins!'});
-        canMove = true;
-        ballVel.x = 1;
-        ballVel.y = 1;
-    }, 1500);
+function checkForWin () {
+  if(player1Score === 5 && winToast) {
+    winToast = false;
+    setTimeout(function(){
+      M.toast({html: 'Player 1 wins!'});
+      resetGameModal();
+    }, 500);
+  } else if(player2Score === 5 && winToast) {
+    winToast = false;
+    setTimeout(function(){
+      M.toast({html: 'Player 2 wins!'});
+      resetGameModal();
+    }, 500);
   }
 };
 
+function resetGame() {
+  console.log("reset button was clicked");
+  console.log(ballVel);
+  console.log(ballPos);
+  player1Score = 0;
+  player2Score = 0;
+  ctx.clearRect(0, 0, mainGame.width, mainGame.height);
+  ballVel.x = 1;
+  ballVel.y = 1;
+  winToast = true;
+
+}
+
+function resetGameModal() {
+  ballVel.x = 0;
+  ballVel.y = 0;
+  $('#modal1').modal();
+  $('#modal1').modal('open');
+
+  var yes = document.getElementById("yes");
+  yes.addEventListener('click', resetGame);
+}
 
 
 
 
+//check for win function
 
-
-
-
+//separate reset function
 
 
 // function randomPosX(50, 1051) {
@@ -238,18 +238,6 @@ function collisionDetection(paddleChar) {
 //   return Math.floor(Math.random() * max) + min; //The maximum is exclusive and the minimum is inclusive
 // }
 
-// subtract a .5 from the math.random...
-
-//scoreboard
-
-
-
-
-
-
-
-
-
 // function collisionDetection() {
 //     for(var c=0; c<brickColumnCount; c++) {
 //         for(var r=0; r<brickRowCount; r++) {
@@ -260,10 +248,6 @@ function collisionDetection(paddleChar) {
 //         }
 //     }
 // }
-
-
-
-//collision detection
 
 //
 // //Below define player location, size, and color.
@@ -284,12 +268,3 @@ function collisionDetection(paddleChar) {
 // //     alive:
 // //   })
 // // });
-////
-// $(document).ready(function() {
-//   console.log('jQuery init!');
-// });
-//
-//
-// $(document).keydown(function(e) {
-//     console.log(e.keyCode);
-//   });
