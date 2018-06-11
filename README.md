@@ -5,6 +5,7 @@
 WDI-project1
 
 **Introduction**
+
 Hi, I'm Matt Carver, an aspiring Programmer.  This is my first game attempt, based on a classic, Pong.  Here you will find information on this game's development, my thought process, and future version plans.  Thank you for reading and please enjoy the game!  -MC
 
 **Getting Started**
