@@ -70,15 +70,11 @@ function gameLoop() {
   if(player2.alive) {
     player2.render();
   }
-  // console.log("this is the y position: ", ballPos.y);
-  // console.log("this is the y velocity: ", ballVel.y);
   ctx.fillRect(ballPos.x, ballPos.y, 6, 6);
-  //how to call player1Score and player2Score.
 }
 
 //This defines player location, size, and color.
 $(document).ready(function() {
-   // $('.modal').modal();
   draw()
   player1 = playerPaddle({
     x: 20,
@@ -101,12 +97,11 @@ $(document).ready(function() {
   ballVel.x = 1;
   ballVel.y = 1;
   setInterval(gameLoop, 10);
-
+//This is the document ready that allows for the up/down keys to move the paddles.
 $(document).keydown(function(e) {
   switch(true){
     case (e.keyCode === 81 && canMove):
       player1.y-=20;
-      //How to do sub steps to make it more smooth?
       break;
     case (e.keyCode === 65 && canMove):
       player1.y+=20;
@@ -122,13 +117,13 @@ $(document).keydown(function(e) {
 });
 
 function collisionDetection(paddleChar) {
-//left
+//This condition causes the ball to bounce off of the left paddle and maintains the speed of the ball.
     if(ballPos.x <= paddleChar.x && ballPos.x > paddleChar.x + paddleChar.width
       && ballPos.y <= paddleChar.y && ballPos.y > paddleChar.y + paddleChar.height)
       {
         ballVel.x = ballVel.x * -1;
       }
-//leftscoreboard
+//This condition tracks if the ball scores, adds a score to the Player 1 board, and resets the ball position.
     if(ballPos.x >= scoreRight && canScore) {
         player1Score++;
         canScore = false;
@@ -138,13 +133,13 @@ function collisionDetection(paddleChar) {
           ballPos.y = 300;
         }, 1000)
     }
-//right
+//This condition causes the ball to bounce off of the right paddle and maintains the speed of the ball.
     if(ballPos.x >= paddleChar.x && ballPos.x < paddleChar.x + paddleChar.width
       && ballPos.y >= paddleChar.y && ballPos.y < paddleChar.y + paddleChar.height)
       {
         ballVel.x = ballVel.x * -1;
       }
-//rightscoreboard
+//This condition tracks if the ball scores, adds a score to the Player 2 board, and resets the ball position.
     if(ballPos.x <= scoreLeft && canScore) {
         player2Score++;
         canScore = false;
@@ -154,13 +149,13 @@ function collisionDetection(paddleChar) {
           ballPos.y = 300;
         }, 1000)
     }
-//this makes the ball bounce off the top barrier.
+//This condition causes the ball to bounce off of the top barrier.
     if(ballPos.y <= bounceBarrierTop) {
       ballPos.y = 10;
       // ballVel.x = 1;
       ballVel.y = ballVel.y * -1;
       }
-//this makes the ball bounce off the bottom barrier.
+//This condition causes the ball to bounce off of the bottom barrier.
     if(ballPos.y >= bounceBarrierBottom) {
       ballPos.y = 590;
       // ballVel.x = 1;
@@ -168,7 +163,7 @@ function collisionDetection(paddleChar) {
       }
       checkForWin();
 };
-
+//This checkForWin function, checks the player score, and when it reaches 5, declares a winner, posts a toast of the winner, and calls the resetGameModal.
 function checkForWin () {
   if(player1Score === 5 && winToast) {
     winToast = false;
@@ -184,87 +179,21 @@ function checkForWin () {
     }, 500);
   }
 };
-
+//This function resets the game(clearing the board, reseting the player's scores, re-engages the ball, and allows for a win toast(materialize)) when the resetGameModal is clicked "yes."
 function resetGame() {
-  console.log("reset button was clicked");
-  console.log(ballVel);
-  console.log(ballPos);
   player1Score = 0;
   player2Score = 0;
   ctx.clearRect(0, 0, mainGame.width, mainGame.height);
   ballVel.x = 1;
   ballVel.y = 1;
   winToast = true;
-
 }
-
+//This function calls the materialize modal, and inits the game reset on a "yes" click.
 function resetGameModal() {
   ballVel.x = 0;
   ballVel.y = 0;
   $('#modal1').modal();
   $('#modal1').modal('open');
-
   var yes = document.getElementById("yes");
   yes.addEventListener('click', resetGame);
 }
-
-
-
-
-//check for win function
-
-//separate reset function
-
-
-// function randomPosX(50, 1051) {
-//   return Math.random() * (1051 - 50) + 50;
-// }
-//
-// function randomPosY(30, 570) {
-//   return Math.random() * (570 - 30) + 30;
-// }
-//
-// function randomintVel(-1, 2) {
-//   return Math.floor(Math.random() * 2) + (-1);
-// }
-
-// //use this function to get an x, and then again for a y, to have random placement of ball when reset.
-// function getRandomArbitrary(min, max) {
-//   return Math.random() * (max - min) + min;
-// }
-//
-// //use this function to get a random integer, for x and y, to have random direction of the ball.
-// function getRandomInt(min, max) {
-//   return Math.floor(Math.random() * max) + min; //The maximum is exclusive and the minimum is inclusive
-// }
-
-// function collisionDetection() {
-//     for(var c=0; c<brickColumnCount; c++) {
-//         for(var r=0; r<brickRowCount; r++) {
-//             var b = bricks[c][r];
-//             if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-//                 dy = -dy;
-//             }
-//         }
-//     }
-// }
-
-//
-// //Below define player location, size, and color.
-// //   comp = playerUnit({
-// //     x:
-// //     y:
-// //     height:
-// //     width:
-// //     color:
-// //     alive:
-// //   })
-// //   compHard = playerUnit({
-// //     x:
-// //     y:
-// //     height:
-// //     width:
-// //     color:
-// //     alive:
-// //   })
-// // });
