@@ -5,7 +5,7 @@
 WDI-project1
 
 **Introduction**
--->Hi, I'm Matt Carver, an aspiring Programmer.  This is my first game attempt, based on a classic, Pong.  Here you will find information on this game's development, my thought process, and future version plans.  Thank you for reading and please enjoy the game!  -MC
+Hi, I'm Matt Carver, an aspiring Programmer.  This is my first game attempt, based on a classic, Pong.  Here you will find information on this game's development, my thought process, and future version plans.  Thank you for reading and please enjoy the game!  -MC
 
 **Getting Started**
 - PONG^2 is a web-site hosted game, located here: https://carverme.github.io/gameProject/
@@ -13,14 +13,14 @@ WDI-project1
 - If you are interested in further development of this game or to see its inner-workings, please see my github repository "gameProject", at: https://github.com/carverme.
 
 **Built With**
-- [Atom]"-"(https://atom.io/)
+- [Atom] - (https://atom.io/)
 - Written in:
     - HTML
     - JavaScript
-    - [jQuery]"-"(https://jquery.com/)
+    - [jQuery] - (https://jquery.com/)
 - Styled with:
     - Cascading Style Sheets
-    - [Materialize]"-"(https://materializecss.com/)
+    - [Materialize] - (https://materializecss.com/)
 
 **Pseudocode**
 1. Set up files.
@@ -54,8 +54,8 @@ WDI-project1
   - For the top and bottom barriers, I set the boundaries for the ball to react to, based on the canvas's dimensions.  What I learned with this barrier with my top/bottom extreme values, was that if the ball was moving at a significant velocity when it struck the barrier, it would get stuck in the barrier, and cause the game to loop without ball movement.  After adjusting the ball's distance from that barrier to be great enough to stay within 10px of those barriers, the ball looped and moved as intended.
   - For the score left/right barriers, once the ball crossed the left or right sides of the canvas, either player1Score or player2Score would be incremented +1.  This would be shown on the scoreboard, and the ball would be re-dropped, per say, on the board for the next round.
 
-  - ![Whiteboard pseudocode notes for win condition, collision detection for paddles and top/bottom barriers.]
-  (https://imgur.com/MhTTWZD)
+- [Whiteboard pseudocode notes for win condition, collision detection for paddles and top/bottom barriers.]
+(https://imgur.com/MhTTWZD)
 
 7. Once the game started to come together, I added the checkForWin function, which determined the win condition, which is set to the 5th goal.  Throughout game testing, this was always set to 1 to manage time.  When the function is run, by the game meeting the conditions of 'win', at 5 goals, a Materialize 'toast' is displayed with the winner of the game, player1 or player2.  The function also calls the resetGameModal function.
 
@@ -66,6 +66,7 @@ WDI-project1
 **Next Steps**
 
 In future versions of this game, I would like to improve or add the following:
+
 - Player control
     - Increase the paddle speeds.
     - Allow for animation to smoothen the paddle movement.
@@ -90,5 +91,6 @@ In future versions of this game, I would like to improve or add the following:
 **Acknowledgements**
 
 - A hat tip to:
+
      - Steve and Kyle, General Assembly Instructor and Instructor Assistant!
      - Ted Dabney, co-founder of Atari, co-creator(with Al Alcorn) of Pong, and video game industry pioneer died May 27, 2018.  
